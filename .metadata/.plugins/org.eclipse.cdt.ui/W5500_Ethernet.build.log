@@ -1,0 +1,10 @@
+20:17:28 **** Build of configuration Debug for project W5500_Ethernet ****
+make -j16 all 
+arm-none-eabi-size  W5500_Ethernet.elf 
+   text	   data	    bss	    dec	    hex	filename
+  26104	    176	   2320	  28600	   6fb8	W5500_Ethernet.elf
+Finished building: default.size.stdout
+ 
+
+20:17:28 Build Finished. 0 errors, 0 warnings. (took 250ms)
+

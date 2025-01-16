@@ -1,0 +1,76 @@
+!SESSION 2025-01-16 20:14:35.709 -----------------------------------------------
+eclipse.buildId=Version 1.16.0
+java.version=17.0.11
+java.vendor=Eclipse Adoptium
+BootLoader constants: OS=win32, ARCH=x86_64, WS=win32, NL=en_US
+Command-line arguments:  -os win32 -ws win32 -arch x86_64
+
+!ENTRY com.st.stm32cube.ide.mcu.informationcenter 4 4 2025-01-16 20:14:47.043
+!MESSAGE CubeMX plugin appears to be active, Log4j initialization might be too late.
+
+!ENTRY com.st.stm32cube.ide.mcu.informationcenter 1 1 2025-01-16 20:14:47.050
+!MESSAGE Log4j2 initialized with config file C:\Users\Korisnik\STM32CubeIDE\workspace_1.16.0\W5500_Repo\.metadata\.log4j2.xml
+
+!ENTRY org.eclipse.core.jobs 2 2 2025-01-16 20:14:52.235
+!MESSAGE Job found still running after platform shutdown.  Jobs should be canceled by the plugin that scheduled them during shutdown: org.eclipse.ui.internal.Workbench$39
+!SESSION 2025-01-16 20:15:23.463 -----------------------------------------------
+eclipse.buildId=Version 1.16.0
+java.version=17.0.11
+java.vendor=Eclipse Adoptium
+BootLoader constants: OS=win32, ARCH=x86_64, WS=win32, NL=en_US
+Command-line arguments:  -os win32 -ws win32 -arch x86_64
+
+!ENTRY com.st.stm32cube.ide.mcu.informationcenter 4 4 2025-01-16 20:15:31.369
+!MESSAGE CubeMX plugin appears to be active, Log4j initialization might be too late.
+
+!ENTRY com.st.stm32cube.ide.mcu.informationcenter 1 1 2025-01-16 20:15:31.370
+!MESSAGE Log4j2 initialized with config file C:\Users\Korisnik\STM32CubeIDE\workspace_1.16.0\W5500_Repo\.metadata\.log4j2.xml
+
+!ENTRY com.st.stm32cube.ide.mcu.ide 1 1 2025-01-16 20:15:38.782
+!MESSAGE Started RMI Server, listening on port 41337
+
+!ENTRY org.eclipse.cdt.core 1 0 2025-01-16 20:15:55.620
+!MESSAGE Indexed 'MQTT_PUB' (45 sources, 176 headers) in 8.35 sec: 18,135 declarations; 72,122 references; 3 unresolved inclusions; 46 syntax errors; 196 unresolved names (0.22%)
+
+!ENTRY org.eclipse.ui.workbench 4 2 2025-01-16 20:16:04.297
+!MESSAGE Problems occurred when invoking code from plug-in: "org.eclipse.ui.workbench".
+!STACK 0
+java.lang.NullPointerException: Cannot invoke "org.eclipse.cdt.managedbuilder.core.IManagedBuildInfo.getDefaultConfiguration()" because "buildInfo" is null
+	at com.st.stm32cube.ide.mcu.build.ui.decorator.BoldDecorator.decorate(BoldDecorator.java:79)
+	at org.eclipse.ui.internal.decorators.LightweightDecoratorDefinition.decorate(LightweightDecoratorDefinition.java:253)
+	at org.eclipse.ui.internal.decorators.LightweightDecoratorManager$LightweightRunnable.run(LightweightDecoratorManager.java:105)
+	at org.eclipse.core.runtime.SafeRunner.run(SafeRunner.java:47)
+	at org.eclipse.ui.internal.decorators.LightweightDecoratorManager.decorate(LightweightDecoratorManager.java:360)
+	at org.eclipse.ui.internal.decorators.LightweightDecoratorManager.getDecorations(LightweightDecoratorManager.java:346)
+	at org.eclipse.ui.internal.decorators.DecorationScheduler$1.queue(DecorationScheduler.java:419)
+	at org.eclipse.ui.internal.decorators.DecorationScheduler$1.run(DecorationScheduler.java:397)
+	at org.eclipse.core.internal.jobs.Worker.run(Worker.java:63)
+
+!ENTRY org.eclipse.ui 4 4 2025-01-16 20:16:04.298
+!MESSAGE Exception in Decorator. The 'linkerDecorator' decorator will be disabled.
+!SUBENTRY 1 org.eclipse.ui 4 4 2025-01-16 20:16:04.299
+!MESSAGE Cannot invoke "org.eclipse.cdt.managedbuilder.core.IManagedBuildInfo.getDefaultConfiguration()" because "buildInfo" is null
+!STACK 0
+java.lang.NullPointerException: Cannot invoke "org.eclipse.cdt.managedbuilder.core.IManagedBuildInfo.getDefaultConfiguration()" because "buildInfo" is null
+	at com.st.stm32cube.ide.mcu.build.ui.decorator.BoldDecorator.decorate(BoldDecorator.java:79)
+	at org.eclipse.ui.internal.decorators.LightweightDecoratorDefinition.decorate(LightweightDecoratorDefinition.java:253)
+	at org.eclipse.ui.internal.decorators.LightweightDecoratorManager$LightweightRunnable.run(LightweightDecoratorManager.java:105)
+	at org.eclipse.core.runtime.SafeRunner.run(SafeRunner.java:47)
+	at org.eclipse.ui.internal.decorators.LightweightDecoratorManager.decorate(LightweightDecoratorManager.java:360)
+	at org.eclipse.ui.internal.decorators.LightweightDecoratorManager.getDecorations(LightweightDecoratorManager.java:346)
+	at org.eclipse.ui.internal.decorators.DecorationScheduler$1.queue(DecorationScheduler.java:419)
+	at org.eclipse.ui.internal.decorators.DecorationScheduler$1.run(DecorationScheduler.java:397)
+	at org.eclipse.core.internal.jobs.Worker.run(Worker.java:63)
+
+!ENTRY org.eclipse.core.resources 4 77 2025-01-16 20:16:13.703
+!MESSAGE Invalid project description.
+!SUBENTRY 1 unknown 0 0 2025-01-16 20:16:13.703
+!MESSAGE OK
+!SUBENTRY 1 org.eclipse.core.resources 4 77 2025-01-16 20:16:13.703
+!MESSAGE C:\Users\Korisnik\STM32CubeIDE\workspace_1.16.0\W5500_Repo\MQTT_PUB overlaps the location of another project: 'MQTT_PUB'
+
+!ENTRY com.st.stm32cube.common.projectcreation 4 0 2025-01-16 20:16:13.704
+!MESSAGE Project is null
+
+!ENTRY org.eclipse.cdt.core 1 0 2025-01-16 20:17:29.131
+!MESSAGE Indexed 'W5500_Ethernet' (33 sources, 167 headers) in 2.66 sec: 17,072 declarations; 69,485 references; 3 unresolved inclusions; 46 syntax errors; 171 unresolved names (0.2%)
