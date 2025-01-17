@@ -25,6 +25,9 @@
 #include "w5500_spi.h"
 #include "wizchip_conf.h"
 #include "socket.h"
+
+#include "MQTTClient.h"
+#include "mqtt_interface.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -34,8 +37,7 @@
 
 /* Private define ------------------------------------------------------------*/
 /* USER CODE BEGIN PD */
-#define LISTEN_PORT 5000
-#define RECEIVE_BUFF_SIZE 128
+
 /* USER CODE END PD */
 
 /* Private macro -------------------------------------------------------------*/
@@ -59,8 +61,14 @@ wiz_NetInfo gWIZNETINFO2 = {
 		.dhcp = NETINFO_STATIC };
 
 uint8_t destination_ip[]={192,168,0,33};
-uint16_t destination_port=5000;
-uint8_t receive_buff[RECEIVE_BUFF_SIZE];//to receive data from client
+uint16_t destination_port = 1883;
+
+MQTTClient mqtt_client;
+Network network;
+MQTTPacket_connectData connect_data=MQTTPacket_connectData_initializer;
+MQTTMessage msg={QOS0,1,0,1,"JAI SHREE RAM!",14};
+
+uint8_t sendbuff[256],receivebuff[256];
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
@@ -72,6 +80,7 @@ static void MX_USART2_UART_Init(void);
 static void UWriteData(const char data);
 static void PHYStatusCheck(void);
 static void PrintPHYConf(void);
+static void PrintBrokerIP(void);
 
 static void simpleClientExample(void);
 /* USER CODE END PFP */
@@ -113,6 +122,7 @@ int main(void)
 	MX_SPI1_Init();
 	MX_USART2_UART_Init();
 	/* USER CODE BEGIN 2 */
+	printf("A Simple MQTT Client Publish Application using W5500!\r\n");
 	W5500Init();
 	ctlnetwork(CN_SET_NETINFO, (void*) &gWIZNETINFO2);
 
@@ -127,96 +137,51 @@ int main(void)
 
 	PHYStatusCheck();
 	PrintPHYConf();
+
+	connect_data.willFlag = 0;
+	connect_data.MQTTVersion = 3;
+	connect_data.clientID.cstring = "iotencew55";
+
+	//connect_data.username.cstring = opts.username;
+	//connect_data.password.cstring = opts.password;
+
+	connect_data.keepAliveInterval = 60;
+	connect_data.cleansession = 1;
+
+	NewNetwork(&network, 1);//1 is the socket number to use
+	PrintBrokerIP();
+	printf("Connecting to MQTT Broker ...");
+	if(ConnectNetwork(&network, destination_ip, destination_port)!=SOCK_OK)
+	{
+	  printf("ERROR: Cannot connect with broker!\r\n");
+	  //Broker (server) not reachable
+	  while(1);
+	}
+
+	printf("SUCCESS\r\n");
+
+	MQTTClientInit(&mqtt_client, &network, 1000, sendbuff, 256, receivebuff, 256);
+
+	printf("Sending connect packet ...");
+
+	if(MQTTConnect(&mqtt_client, &connect_data)!=MQTT_SUCCESS)
+	{
+	  printf("ERROR!");
+	  while(1);
+	}
+
+	printf("SUCCESS\r\n");
+
+	while(1)
+	{
+
+MQTTPublish(&mqtt_client, "test/topic1", &msg);
+HAL_Delay(1000);
+
+	}
 	/* USER CODE END 2 */
 
-	printf("\r\n*****************SIMPLE TCP ECHO SERVER******************\r\n");
 
-	while (1) {
-		printf("\r\nInitializing server socket\r\n");
-
-		//Parameters in order socket_id, protocol TCP or UDP, Port number, Flags=0
-		//Return value is socket ID on success
-		if (socket(1, Sn_MR_TCP, LISTEN_PORT, 0) != 1) {
-			//error
-			printf("Cannot create Socket!\r\n");
-			while (1)
-				;		  //halt here
-		}
-
-		//success
-		printf("Socket Created Successfully ! \r\n");
-
-		uint8_t socket_io_mode = SOCK_IO_BLOCK;
-
-		ctlsocket(1, CS_SET_IOMODE, &socket_io_mode);	//set blocking IO mode
-
-		printf("Start listening on port %d ! \r\n", LISTEN_PORT);
-		printf("Waiting for a client connection. \r\n");
-
-		//Make it a passive socket (i.e. listen for connection)
-		if (listen(1) != SOCK_OK)//our socket id is 1 (w5500 have 8 sockets from 0-7)
-		{
-			//error
-			printf("Cannot listen on port %d", LISTEN_PORT);
-
-			while (1)
-				;
-
-		}
-
-		uint8_t sr = 0x00;		  //socket status register
-
-		do {
-			sr = getSn_SR(1);		  //read status reg (SR of socket 1)
-		} while (sr != 0x17 && sr != 0x00);
-
-		if (sr == 0x00) {
-			printf("Some error occurred on server socket. Please restart.\r\n");
-			while (1)
-				;
-		}
-
-		if (sr == 0x17) {
-			//we come here only when a client has connected.
-			//Now we can read data from the socket
-			printf("A client connected!\r\n");
-			printf("Waiting for Client Data ...!\r\n");
-
-			while (1) {
-				int len = recv(1, receive_buff, RECEIVE_BUFF_SIZE);
-
-				if (len == SOCKERR_SOCKSTATUS) {
-					//client has disconnected
-					printf("Client has disconnected\r\n");
-					printf("*** SESSION OVER ***\r\n\r\n");
-					break;
-				}
-
-				receive_buff[len] = '\0';
-
-				printf("Received %d bytes from client\r\n", len);
-				printf("Data Received: %s", receive_buff);
-
-				//Echo the data back encloused in a [] pair
-				send(1, (uint8_t*) "[", 1);			  //starting sq bracket
-				send(1, receive_buff, len);			  // the data
-				send(1, (uint8_t*) "]", 1);			  //closing sq bracket
-
-				printf("\r\nECHO sent back to client\r\n");
-
-				//Look for quit message and quit if received
-				if (strcmp((char*) receive_buff, "QUIT") == 0) {
-					printf("Received QUIT command from client\r\n");
-					printf("Disconnecting ... \r\n");
-					printf("*** SESSION OVER ***\r\n\r\n");
-					disconnect(1);			  //disconnect from the clinet
-					break;			  //come out of while loop
-				}
-
-			}			  //While loop (as long as client is connected)
-
-		}			  //if block, client connect success
-	}			  //while loop for next client wait
 }
 
 /**
@@ -461,66 +426,11 @@ void PrintPHYConf(void)
 	}
 }
 
-static void simpleClientExample(void)
+static void PrintBrokerIP(void)
 {
-	  W5500Init();
-	  ctlnetwork(CN_SET_NETINFO, (void* )&gWIZNETINFO2);
-
-	  wiz_PhyConf phyconf;
-
-	  phyconf.by = PHY_CONFBY_SW;
-	  phyconf.duplex = PHY_DUPLEX_FULL;
-	  phyconf.speed = PHY_SPEED_10;
-	  phyconf.mode = PHY_MODE_AUTONEGO;
-
-	  ctlwizchip(CW_SET_PHYCONF, (void*)&phyconf);
-
-	  PHYStatusCheck();
-	  PrintPHYConf();
-	  /* USER CODE END 2 */
-
-
-	  /* Infinite loop */
-	  /* USER CODE BEGIN WHILE */
-	  if(socket(1, Sn_MR_TCP, 0, 0)==1)
-	  {
-		  printf("\r\nSocket Created Successfully");
-	  }
-	  else
-	  {
-		  printf("\r\nCannot create socket");
-		  while(1);
-	  }
-
-	  printf("\r\nConnecting to server: %d.%d.%d.%d @ TCP Port: %d",destination_ip[0],destination_ip[1],destination_ip[2],destination_ip[3],destination_port);
-	  if(connect(1, destination_ip, destination_port)==SOCK_OK)
-	  {
-		  printf("\r\nConnected with server.");
-	  }
-	  else
-	  {
-		  //failed
-		  printf("\r\nCannot connect with server!");
-		  while(1);
-	  }
-
-	  while (1)
-	  {
-		  //Return value of the send() function is the amount of data sent
-		  if(send(1, "JAI SHREE RAM!\r\n", 16)<=SOCK_ERROR)
-		  {
-			  printf("\r\nSending Failed!");
-			  while(1);
-
-		  }
-		  else
-		  {
-			  printf("\r\nSending Success!");
-		  }
-
-		  HAL_Delay(1000);
-	  }
+	printf("Broker IP: %d.%d.%d.%d\r\n",destination_ip[0],destination_ip[1],destination_ip[2],destination_ip[3]);
 }
+
 /* USER CODE END 4 */
 
 /**

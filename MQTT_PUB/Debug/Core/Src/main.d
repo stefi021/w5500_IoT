@@ -30,7 +30,17 @@ Core/Src/main.o: ../Core/Src/main.c ../Core/Inc/main.h \
  ../Drivers/STM32G4xx_HAL_Driver/Inc/stm32g4xx_hal_uart_ex.h \
  ../Core/Src/w5500/w5500_spi.h ../Core/Src/w5500/wizchip_conf.h \
  ../Core/Src/w5500/W5500/w5500.h ../Core/Src/w5500/socket.h \
- ../Core/Src/w5500/wizchip_conf.h
+ ../Core/Src/w5500/wizchip_conf.h ../Core/Src/w5500/MQTTC/MQTTClient.h \
+ ../Core/Src/w5500/MQTTC/MQTTPacket/MQTTPacket.h \
+ ../Core/Src/w5500/MQTTC/MQTTPacket/MQTTConnect.h \
+ ../Core/Src/w5500/MQTTC/MQTTPacket/MQTTPublish.h \
+ ../Core/Src/w5500/MQTTC/MQTTPacket/MQTTSubscribe.h \
+ ../Core/Src/w5500/MQTTC/MQTTPacket/MQTTUnsubscribe.h \
+ ../Core/Src/w5500/MQTTC/MQTTPacket/MQTTFormat.h \
+ ../Core/Src/w5500/MQTTC/MQTTPacket/StackTrace.h \
+ ../Core/Src/w5500/MQTTC/MQTTPacket/MQTTPacket.h \
+ ../Core/Src/w5500/MQTTC/mqtt_interface.h \
+ ../Core/Src/w5500/MQTTC/mqtt_interface.h
 ../Core/Inc/main.h:
 ../Drivers/STM32G4xx_HAL_Driver/Inc/stm32g4xx_hal.h:
 ../Core/Inc/stm32g4xx_hal_conf.h:
@@ -66,3 +76,14 @@ Core/Src/main.o: ../Core/Src/main.c ../Core/Inc/main.h \
 ../Core/Src/w5500/W5500/w5500.h:
 ../Core/Src/w5500/socket.h:
 ../Core/Src/w5500/wizchip_conf.h:
+../Core/Src/w5500/MQTTC/MQTTClient.h:
+../Core/Src/w5500/MQTTC/MQTTPacket/MQTTPacket.h:
+../Core/Src/w5500/MQTTC/MQTTPacket/MQTTConnect.h:
+../Core/Src/w5500/MQTTC/MQTTPacket/MQTTPublish.h:
+../Core/Src/w5500/MQTTC/MQTTPacket/MQTTSubscribe.h:
+../Core/Src/w5500/MQTTC/MQTTPacket/MQTTUnsubscribe.h:
+../Core/Src/w5500/MQTTC/MQTTPacket/MQTTFormat.h:
+../Core/Src/w5500/MQTTC/MQTTPacket/StackTrace.h:
+../Core/Src/w5500/MQTTC/MQTTPacket/MQTTPacket.h:
+../Core/Src/w5500/MQTTC/mqtt_interface.h:
+../Core/Src/w5500/MQTTC/mqtt_interface.h:

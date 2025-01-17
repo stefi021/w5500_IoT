@@ -1,7 +1,7 @@
-20:17:28 **** Build of configuration Debug for project W5500_Ethernet ****
+15:18:48 **** Incremental Build of configuration Debug for project MQTT_PUB ****
 make -j16 all 
-arm-none-eabi-size  W5500_Ethernet.elf 
+arm-none-eabi-size  MQTT_PUB.elf 
    text	   data	    bss	    dec	    hex	filename
-  26104	    176	   2320	  28600	   6fb8	W5500_Ethernet.elf
+  31620	    288	   2832	  34740	   87b4	MQTT_PUB.elf
 Finished building: default.size.stdout
  
