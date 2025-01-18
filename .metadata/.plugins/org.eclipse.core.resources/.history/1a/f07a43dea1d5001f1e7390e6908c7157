@@ -175,7 +175,7 @@ int main(void)
 
 	while(1)
 	{
-		printf("Publishing to topic test/topic1 ...");
+		printf("Publishing to topic test/topic1 ...")
 		mqtt_result = MQTTPublish(&mqtt_client, "test/topic1", &msg);
 
 		if(mqtt_result != SUCCESS)
