@@ -69,7 +69,6 @@ MQTTPacket_connectData connect_data=MQTTPacket_connectData_initializer;
 MQTTMessage msg={QOS0,1,0,1,"JAI SHREE RAM!",14};
 
 uint8_t sendbuff[256],receivebuff[256];
-int mqtt_result;
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
@@ -175,19 +174,9 @@ int main(void)
 
 	while(1)
 	{
-		printf("Publishing to topic test/topic1 ...");
-		mqtt_result = MQTTPublish(&mqtt_client, "test/topic1", &msg);
 
-		if(mqtt_result != SUCCESS)
-		{
-			printf("Error! \r\n");
-		}
-		else
-		{
-			printf("SUCCESS! \r\n");
-		}
-
-		HAL_Delay(1000);
+MQTTPublish(&mqtt_client, "test/topic1", &msg);
+HAL_Delay(1000);
 
 	}
 	/* USER CODE END 2 */

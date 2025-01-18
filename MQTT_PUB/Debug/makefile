@@ -65,8 +65,8 @@ all: main-build
 main-build: MQTT_PUB.elf secondary-outputs
 
 # Tool invocations
-MQTT_PUB.elf MQTT_PUB.map: $(OBJS) $(USER_OBJS) C:\Users\z0212095\STM32CubeIDE\workspace_1.16.0\w5500_IoT\MQTT_PUB\STM32G474RETX_FLASH.ld makefile objects.list $(OPTIONAL_TOOL_DEPS)
-	arm-none-eabi-gcc -o "MQTT_PUB.elf" @"objects.list" $(USER_OBJS) $(LIBS) -mcpu=cortex-m4 -T"C:\Users\z0212095\STM32CubeIDE\workspace_1.16.0\w5500_IoT\MQTT_PUB\STM32G474RETX_FLASH.ld" --specs=nosys.specs -Wl,-Map="MQTT_PUB.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+MQTT_PUB.elf MQTT_PUB.map: $(OBJS) $(USER_OBJS) C:\Users\Korisnik\STM32CubeIDE\workspace_1.16.0\W5500_Repo\MQTT_PUB\STM32G474RETX_FLASH.ld makefile objects.list $(OPTIONAL_TOOL_DEPS)
+	arm-none-eabi-gcc -o "MQTT_PUB.elf" @"objects.list" $(USER_OBJS) $(LIBS) -mcpu=cortex-m4 -T"C:\Users\Korisnik\STM32CubeIDE\workspace_1.16.0\W5500_Repo\MQTT_PUB\STM32G474RETX_FLASH.ld" --specs=nosys.specs -Wl,-Map="MQTT_PUB.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
 	@echo 'Finished building target: $@'
 	@echo ' '
 
