@@ -184,7 +184,7 @@ int main(void)
 
 	while(1)
 	{
-		MQTTYield(&mqtt_client, 250);
+		MQTTYYield(&mqtt_client, 250);
 		HAL_Delay(1000);
 
 	}
