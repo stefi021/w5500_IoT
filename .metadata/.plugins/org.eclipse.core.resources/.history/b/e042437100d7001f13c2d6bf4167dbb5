@@ -83,10 +83,7 @@ static void PHYStatusCheck(void);
 static void PrintPHYConf(void);
 static void PrintBrokerIP(void);
 
-static void OnTopicTemperature(MessageData*);
-static void OnTopicHumidity(MessageData*);
-
-static void publishClientExample();
+static void simpleClientExample(void);
 /* USER CODE END PFP */
 
 /* Private user code ---------------------------------------------------------*/
@@ -126,7 +123,7 @@ int main(void)
 	MX_SPI1_Init();
 	MX_USART2_UART_Init();
 	/* USER CODE BEGIN 2 */
-	printf("A Simple MQTT Client Publish/Subscription Application using W5500!\r\n");
+	printf("A Simple MQTT Client Publish Application using W5500!\r\n");
 	W5500Init();
 	ctlnetwork(CN_SET_NETINFO, (void*) &gWIZNETINFO2);
 
@@ -149,7 +146,7 @@ int main(void)
 	//connect_data.username.cstring = opts.username;
 	//connect_data.password.cstring = opts.password;
 
-	connect_data.keepAliveInterval = 60; //seconds
+	connect_data.keepAliveInterval = 60;
 	connect_data.cleansession = 1;
 
 	NewNetwork(&network, 1);//1 is the socket number to use
@@ -176,15 +173,20 @@ int main(void)
 
 	printf("SUCCESS\r\n");
 
-	MQTTSubscribe(&mqtt_client, "room/temp", QOS0, OnTopicTemperature);
-	printf("Subsribed to topic room/temp\r\n");
-
-	MQTTSubscribe(&mqtt_client, "room/humidity", QOS0, OnTopicHumidity);
-	printf("Subsribed to topic room/humidity\r\n");
-
 	while(1)
 	{
-		MQTTYield(&mqtt_client, 250);
+		printf("Publishing to topic test/topic1 ...");
+		mqtt_result = MQTTPublish(&mqtt_client, "test/topic1", &msg);
+
+		if(mqtt_result != SUCCESS)
+		{
+			printf("Error! \r\n");
+		}
+		else
+		{
+			printf("SUCCESS! \r\n");
+		}
+
 		HAL_Delay(1000);
 
 	}
@@ -438,86 +440,6 @@ void PrintPHYConf(void)
 static void PrintBrokerIP(void)
 {
 	printf("Broker IP: %d.%d.%d.%d\r\n",destination_ip[0],destination_ip[1],destination_ip[2],destination_ip[3]);
-}
-
-static void OnTopicTemperature(MessageData*)
-{
-	printf("New message on topic room/temp\r\n");
-}
-static void OnTopicHumidity(MessageData*)
-{
-	printf("New message on topic room/humidity\r\n");
-}
-
-static void publishClientExample()
-{
-	printf("A Simple MQTT Client Publish/Subscription Application using W5500!\r\n");
-	W5500Init();
-	ctlnetwork(CN_SET_NETINFO, (void*) &gWIZNETINFO2);
-
-	wiz_PhyConf phyconf;
-
-	phyconf.by = PHY_CONFBY_SW;
-	phyconf.duplex = PHY_DUPLEX_FULL;
-	phyconf.speed = PHY_SPEED_10;
-	phyconf.mode = PHY_MODE_AUTONEGO;
-
-	ctlwizchip(CW_SET_PHYCONF, (void*) &phyconf);
-
-	PHYStatusCheck();
-	PrintPHYConf();
-
-	connect_data.willFlag = 0;
-	connect_data.MQTTVersion = 3;
-	connect_data.clientID.cstring = "iotencew55";
-
-	//connect_data.username.cstring = opts.username;
-	//connect_data.password.cstring = opts.password;
-
-	connect_data.keepAliveInterval = 60; //seconds
-	connect_data.cleansession = 1;
-
-	NewNetwork(&network, 1);//1 is the socket number to use
-	PrintBrokerIP();
-	printf("Connecting to MQTT Broker ...");
-	if(ConnectNetwork(&network, destination_ip, destination_port)!=SOCK_OK)
-	{
-	  printf("ERROR: Cannot connect with broker!\r\n");
-	  //Broker (server) not reachable
-	  while(1);
-	}
-
-	printf("SUCCESS\r\n");
-
-	MQTTClientInit(&mqtt_client, &network, 1000, sendbuff, 256, receivebuff, 256);
-
-	printf("Sending connect packet ...");
-
-	if(MQTTConnect(&mqtt_client, &connect_data)!=MQTT_SUCCESS)
-	{
-	  printf("ERROR!");
-	  while(1);
-	}
-
-	printf("SUCCESS\r\n");
-
-	while(1)
-	{
-		printf("Publishing to topic test/topic1 ...");
-		mqtt_result = MQTTPublish(&mqtt_client, "test/topic1", &msg);
-
-		if(mqtt_result != SUCCESS)
-		{
-			printf("Error! \r\n");
-		}
-		else
-		{
-			printf("SUCCESS! \r\n");
-		}
-
-		HAL_Delay(1000);
-
-	}
 }
 
 /* USER CODE END 4 */

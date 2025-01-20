@@ -1,10 +1,10 @@
-14:41:09 **** Incremental Build of configuration Debug for project MQTT_PUB ****
+08:58:10 **** Incremental Build of configuration Debug for project MQTT_PUB ****
 make -j16 all 
 arm-none-eabi-size  MQTT_PUB.elf 
    text	   data	    bss	    dec	    hex	filename
-  31728	    288	   2832	  34848	   8820	MQTT_PUB.elf
+  32464	    272	   2832	  35568	   8af0	MQTT_PUB.elf
 Finished building: default.size.stdout
  
 
-14:41:09 Build Finished. 0 errors, 0 warnings. (took 183ms)
+08:58:10 Build Finished. 0 errors, 0 warnings. (took 243ms)
 

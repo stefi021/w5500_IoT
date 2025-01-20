@@ -184,7 +184,9 @@ int main(void)
 
 	while(1)
 	{
-		MQTTYield(&mqtt_client, 250);
+
+
+
 		HAL_Delay(1000);
 
 	}
@@ -438,15 +440,6 @@ void PrintPHYConf(void)
 static void PrintBrokerIP(void)
 {
 	printf("Broker IP: %d.%d.%d.%d\r\n",destination_ip[0],destination_ip[1],destination_ip[2],destination_ip[3]);
-}
-
-static void OnTopicTemperature(MessageData*)
-{
-	printf("New message on topic room/temp\r\n");
-}
-static void OnTopicHumidity(MessageData*)
-{
-	printf("New message on topic room/humidity\r\n");
 }
 
 static void publishClientExample()
